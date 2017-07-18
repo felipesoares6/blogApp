@@ -23,7 +23,15 @@ app.get('/', (req, res) => {
 })
 
 app.get('/posts', (req, res) => {
-  console.log('index')
+  Post.find((error, posts) => {
+    if (error) {
+      return console.log(`Error: ${error} at add new post`)
+    }
+
+    console.log(`founded the posts: ${posts}`)
+
+    res.render('index', { posts })
+  })
 })
 
 app.get('/posts/new', (req, res) => {
