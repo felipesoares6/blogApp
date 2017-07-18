@@ -18,22 +18,34 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model('Post', postSchema)
 
-Post.create({
-  title: 'Dogs',
-  image: 'http://www.dogbazar.org/wp-content/uploads/2014/09/british-bull-dog-puppies.jpg',
-  body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.officia deserunt mollit anim id est laborum.'
+app.get('/', (req, res) => {
+  res.redirect('/posts')
 })
 
 app.get('/posts', (req, res) => {
-  console.log('all')
+  console.log('index')
 })
 
 app.get('/posts/new', (req, res) => {
-  console.log('new')
+  res.render('new')
 })
 
 app.get('/posts/edit', (req, res) => {
-  console.log('edit')
+  res.render('edit')
+})
+
+app.post('/posts', (req, res) => {
+  const { title, image, body } = req.body
+
+  Post.create({ title, image, body, created: new Date() }, (error, post) => {
+    if (error) {
+      return console.log(`Error: ${error} at add new post`)
+    }
+
+    console.log(`added the post: ${post}`)
+
+    res.redirect('/posts')
+  })
 })
 
 app.listen(8080, () => {
