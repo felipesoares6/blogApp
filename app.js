@@ -28,8 +28,6 @@ app.get('/posts', (req, res) => {
       return console.log(`Error: ${error} at add new post`)
     }
 
-    console.log(`founded the posts: ${posts}`)
-
     res.render('index', { posts })
   })
 })
@@ -50,9 +48,19 @@ app.post('/posts', (req, res) => {
       return console.log(`Error: ${error} at add new post`)
     }
 
-    console.log(`added the post: ${post}`)
-
     res.redirect('/posts')
+  })
+})
+
+app.get('/posts/:id', (req, res) => {
+  const { id } = req.params
+
+  Post.findById(id, (error, post) => {
+    if (error) {
+      return console.log(`Error: ${error} to get the post`)
+    }
+    console.log(post)
+    res.render('show', { post })
   })
 })
 
