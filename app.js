@@ -43,9 +43,9 @@ app.get('/posts/edit', (req, res) => {
 })
 
 app.post('/posts', (req, res) => {
-  const { title, image, body } = req.body
+  const { post } = req.body
 
-  Post.create({ title, image, body, created: new Date() }, (error, post) => {
+  Post.create(Object.assign(post, { created: new Date() }), (error, post) => {
     if (error) {
       return console.log(`Error: ${error} at add new post`)
     }

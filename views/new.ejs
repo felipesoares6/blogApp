@@ -1,18 +1,28 @@
 <% include ./partials/header %>
 
-<h1>New post</h1>
+<div class='ui main text container segment'>
+  <div class='ui huge header'>
+    <h1>New post</h1>
+  </div>
 
-<form method='POST' action='/posts'>
-  <label for='title'>Title</label>
-  <input type='text' name='title'/>
+  <form class='ui form' method='POST' action='/posts'>
+    <div class='field'>
+      <label for='title'>Title</label>
+      <input type='text' name='post[title]' placeholder='title'/>
+    </div>
 
-  <label for='image'>Image</label>
-  <input type='text' name='image'/>
+    <div class='field'>
+      <label for='image'>Image</label>
+      <input type='text' name='post[image]' placeholder='image url'/>
+    </div>
 
-  <label for='body'>Body</label>
-  <textarea name='body'></textarea>
+    <div class='field'>
+      <label for='body'>content</label>
+      <textarea name='post[body]' placeholder='content'></textarea>
+    </div>
 
-  <button>Submit</button>
-</form>
+    <button class='ui primary button'>Submit</button>
+  </form>
+</div>
 
 <% include ./partials/footer %>
