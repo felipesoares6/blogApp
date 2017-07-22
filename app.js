@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 const app = express()
 
 mongoose.connect('mongodb://localhost/blog_app')
@@ -8,6 +9,7 @@ mongoose.connect('mongodb://localhost/blog_app')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 const postSchema = new mongoose.Schema({
   title: String,
@@ -36,10 +38,6 @@ app.get('/posts/new', (req, res) => {
   res.render('new')
 })
 
-app.get('/posts/edit', (req, res) => {
-  res.render('edit')
-})
-
 app.post('/posts', (req, res) => {
   const { post } = req.body
 
@@ -52,6 +50,31 @@ app.post('/posts', (req, res) => {
   })
 })
 
+app.put('/posts/:id', (req, res) => {
+  const { id } = req.params
+  const { post } = req.body
+
+  Post.findByIdAndUpdate(id, post, (error, postEdited) => {
+    if (error) {
+      return console.log(`Error: ${error} to get the post`)
+    }
+
+    res.redirect(`/posts/${id}`)
+  })
+})
+
+app.get('/posts/:id/edit', (req, res) => {
+  const { id } = req.params
+
+  Post.findById(id, (error, post) => {
+    if (error) {
+      return console.log(`Error: ${error} to get the post`)
+    }
+
+    res.render('edit', { post })
+  })
+})
+
 app.get('/posts/:id', (req, res) => {
   const { id } = req.params
 
@@ -59,7 +82,7 @@ app.get('/posts/:id', (req, res) => {
     if (error) {
       return console.log(`Error: ${error} to get the post`)
     }
-    console.log(post)
+
     res.render('show', { post })
   })
 })
