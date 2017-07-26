@@ -1,17 +1,42 @@
 <% include ./partials/header %>
 
-<h1>Posts</h1>
+<div class='ui main text container'>
+  <div class='ui huge header'>
+    RESTful blogApp
+  </div>
 
-<ul>
-  <% posts.map((post) => { %>
-      <li>
-        <h3> <%= post.title %> </h3>
-        <img src='<%= post.image %>'>
-        <p> <%= post.created.toDateString() %> </p>
-        <p> <%= post.body.substring(0, 100) %> ... </p>
-        <a href='/posts/<%= post._id %>'> Read More </a>
-      </li>
-  <% }) %>
-</ul>
+  <ul class='ui top attache segment'>
+    <div class='ui divided items'>
+      <% posts.map((post) => { %>
+        <li class='item'>
+
+          <div class='image'>
+            <img src='<%= post.image %>'>
+          </div>
+
+          <div class='content'>
+            <a href='/posts/<%= post._id %>'>
+              <h3 class='header'> <%= post.title %> </h3>
+            </a>
+
+            <div class='meta'>
+              <p> <%= post.created.toDateString() %> </p>
+            </div>
+
+            <div class='description'>
+              <p> <%- post.body.substring(0, 100) %> ... </p>
+            </div>
+
+            <div class='extra'>
+              <a class='ui floated basic blue button' href='/posts/<%= post._id %>'>
+              Read More
+              </a>
+            </div>
+          </div>
+        </li>
+      <% }) %>
+    </div>
+  </ul>
+</div>
 
 <% include ./partials/footer %>
