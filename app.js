@@ -87,6 +87,18 @@ app.get('/posts/:id', (req, res) => {
   })
 })
 
+app.delete('/posts/:id', (req, res) => {
+  const { id } = req.params
+
+  Post.findByIdAndRemove(id, (error, post) => {
+    if (error) {
+      return console.log(`Error: ${error} to delete the post`)
+    }
+
+    res.redirect('/posts')
+  })
+})
+
 app.listen(8080, () => {
   console.log('the server is running');
 })

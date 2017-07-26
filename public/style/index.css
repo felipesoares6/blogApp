@@ -9,3 +9,11 @@ i.icon {
 body {
   height: auto;
 }
+
+.delete-form {
+  display: inline;
+}
+
+.button-container {
+  margin-top: 10px;
+}

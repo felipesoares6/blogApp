@@ -15,7 +15,14 @@
     <div class='description'>
       <p> <%= post.body %> </p>
     </div>
-    <a href='/posts/<%= post._id %>/edit'> Edit this post </a>
+    <div class='button-container'>
+      <a class='ui blue basic button' href='/posts/<%= post._id %>/edit'>
+        Edit this post
+      </a>
+      <form class='delete-form' method='POST' action='/posts/<%= post._id %>?_method=DELETE'>
+        <button class='ui red basic button'> Delete this post </button>
+      </form>
+    </div>
   </div>
 
 <% include ./partials/footer %>
