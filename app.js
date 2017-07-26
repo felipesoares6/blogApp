@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const expressSanitizer = require('express-sanitizer')
 const app = express()
 
 mongoose.connect('mongodb://localhost/blog_app')
@@ -9,6 +10,7 @@ mongoose.connect('mongodb://localhost/blog_app')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(expressSanitizer())
 app.use(methodOverride('_method'))
 
 const postSchema = new mongoose.Schema({
@@ -40,6 +42,7 @@ app.get('/posts/new', (req, res) => {
 
 app.post('/posts', (req, res) => {
   const { post } = req.body
+  post.body = req.sanitize(post.body)
 
   Post.create(Object.assign(post, { created: new Date() }), (error, post) => {
     if (error) {
@@ -53,6 +56,7 @@ app.post('/posts', (req, res) => {
 app.put('/posts/:id', (req, res) => {
   const { id } = req.params
   const { post } = req.body
+  post.body = req.sanitize(post.body)
 
   Post.findByIdAndUpdate(id, post, (error, postEdited) => {
     if (error) {
